@@ -16,15 +16,32 @@ const firebaseConfig = {
     appId: process.env.REACT_APP_APPID,
     measurementId:process.env.REACT_APP_MID
 }
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-firebase.firestore();
 
-const storage = firebase.storage();
-const functions = firebase.functions();
+// Only initialize Firebase if the required config values are present
+// This allows public pages (HomePage, LandingPage, PrivacyPolicy) to work
+// even without a .env file
+let storage = null;
+let functions = null;
+const isConfigured = firebaseConfig.apiKey && firebaseConfig.projectId;
 
+if (isConfigured) {
+    firebase.initializeApp(firebaseConfig);
+    firebase.firestore();
+    storage = firebase.storage();
+    functions = firebase.functions();
+} else {
+    console.warn(
+        'Firebase config missing. Set REACT_APP_APIKEY, REACT_APP_PID etc in .env file. ' +
+        'Public pages will work, but login/dashboard features will not be available.'
+    );
+}
+
+// Export firebase namespace as default (same as before, needed by reduxFirestore)
+// Also export firebaseConfig for conditional initialization in index.js
 export {
     storage,
     functions,
+    firebaseConfig,
+    isConfigured,
     firebase as default
 }

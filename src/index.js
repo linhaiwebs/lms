@@ -9,7 +9,7 @@ import {ReactReduxFirebaseProvider,getFirebase} from 'react-redux-firebase';
 import thunk from 'redux-thunk'
 import { applyMiddleware, compose, createStore } from 'redux';
 import rootReducer from './Store/reducers/rootReducer';
-import fbConfig from './config/fbConfig'
+import fbConfig, { firebaseConfig, isConfigured } from './config/fbConfig'
 import { Provider } from 'react-redux';
 import firebase from 'firebase/app';
 import { useSelector } from 'react-redux';
@@ -20,7 +20,7 @@ const store = createStore(
   rootReducer,
   compose(
     applyMiddleware(thunk.withExtraArgument({ getFirestore, getFirebase })),
-    reduxFirestore(fbConfig)
+    isConfigured ? reduxFirestore(fbConfig) : f => f
   )
 );
 
@@ -31,7 +31,9 @@ const profileSpecificProps = {
   resetBeforeLogin: false
 }
 
-const newfbConfig = Object.assign(fbConfig,profileSpecificProps);
+const newfbConfig = isConfigured
+  ? Object.assign(fbConfig, profileSpecificProps)
+  : profileSpecificProps;
 
 
 
