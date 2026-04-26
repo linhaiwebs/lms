@@ -1,14 +1,12 @@
-import React from 'react'
-import { Container } from 'reactstrap';
-
+import React from 'react';
 
 const ErrorPage = () => {
     return(
-        <div>
-            <Container className="mt-5">
-                <h1>404</h1>
-                <h4 className="mt-5">Page not found!</h4>
-            </Container>
+        <div className="min-h-screen flex items-center justify-center">
+            <div className="text-center">
+                <h1 className="text-6xl font-bold text-indigo-600">404</h1>
+                <h4 className="mt-4 text-xl text-slate-600">Page not found!</h4>
+            </div>
         </div>
     )
 }
