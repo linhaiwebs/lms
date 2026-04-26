@@ -19,6 +19,13 @@ echo "=========================================="
 # 检测包管理器
 if [ -f "pnpm-lock.yaml" ]; then
   echo "使用 pnpm 构建..."
+  # pnpm 需要 shamefully-hoist=true（已在 .npmrc 中配置）
+  # 如果之前用其他包管理器安装过，需要清理重装
+  if [ ! -d "node_modules/.pnpm" ]; then
+    echo "检测到非 pnpm 的 node_modules，清理重装..."
+    rm -rf node_modules
+    pnpm install
+  fi
   pnpm run build
 elif [ -f "yarn.lock" ]; then
   echo "使用 yarn 构建..."
