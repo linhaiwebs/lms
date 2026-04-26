@@ -80,6 +80,11 @@ class Login extends React.Component{
             <Col md="8">
                    <Form onSubmit={this.handleSubmit}>
                    <Container className="signup-container">
+                   <div className="mb-4">
+                     <Link to="/" className="text-indigo-600 hover:text-indigo-800 font-medium flex items-center space-x-1">
+                       <span>← ホームに戻る</span>
+                     </Link>
+                   </div>
                    <h1 className="heading mt-5 mb-5">Login</h1>
                    <Col>
                        <Row md='8'>
